@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import ToDo from "./ToDo";
+import { db } from "./firebase";
+import { query, collection } from "firebase/firestore";
 
 const style = {
   bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ed] to-[#1cb5e0]`,
@@ -18,6 +20,14 @@ function App() {
     "TypeScript lernen",
     "Next.js lernen",
   ]);
+
+  //Create toDo
+  //Read toDo from Firebase
+  useEffect(() => {
+    const q = query(collection(dc, "todos"));
+  }, []);
+  //Update toDo from Firebase
+  //Delete toDo from Firebase
 
   return (
     <div className={style.bg}>
