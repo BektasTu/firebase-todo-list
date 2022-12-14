@@ -9,12 +9,13 @@ import {
   updateDoc,
   doc,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const style = {
-  bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#FFA000] to-[#FDD835]`,
+  bg: `h-screen w-screen p-4 bg-gradient-to-b from-[#FFA000] to-[#FDD835]`,
   container: `bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-4`,
-  heading: `text-3xl font-bold text-transparent text-center bg-clip-text bg-gradient-to-br from-orange-700 to-yellow-400  p-2`,
+  heading: `text-3xl font-bold text-transparent text-center bg-clip-text bg-gradient-to-b from-orange-700 to-yellow-400  p-2`,
   form: `flex justify-between`,
   input: `border p-2 w-full text-xl`,
   button: `border rounded-3xl p-4 ml-2 bg-amber-500 text-slate-600`,
@@ -59,7 +60,11 @@ function App() {
     });
   };
 
-  //Delete toDo from Firebase
+  //Delete todo from Firebase
+
+  const deleteTodo = async (id) => {
+    await deleteDoc(doc(db, "todos", id));
+  };
 
   return (
     <div className={style.bg}>
@@ -79,7 +84,12 @@ function App() {
         </form>
         <ul>
           {todos.map((todo, index) => (
-            <ToDo key={index} todo={todo} toggleComplete={toggleComplete} />
+            <ToDo
+              key={index}
+              todo={todo}
+              toggleComplete={toggleComplete}
+              deleteTodo={deleteTodo}
+            />
           ))}
         </ul>
 
