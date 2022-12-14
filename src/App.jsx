@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import ToDo from "./ToDo";
 import { db } from "./firebase";
-import { query, collection } from "firebase/firestore";
+import { query, collection, onSnapshot } from "firebase/firestore";
 
 const style = {
   bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ed] to-[#1cb5e0]`,
@@ -15,16 +15,20 @@ const style = {
 };
 
 function App() {
-  const [todos, setTodos] = useState([
-    "React lernen",
-    "TypeScript lernen",
-    "Next.js lernen",
-  ]);
+  const [todos, setTodos] = useState([]);
 
   //Create toDo
   //Read toDo from Firebase
   useEffect(() => {
-    const q = query(collection(dc, "todos"));
+    const q = query(collection(db, "todos"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let todosArr = [];
+      querySnapshot.forEach((doc) => {
+        todosArr.push({ ...doc.data(), id: doc.id });
+      });
+      setTodos(todosArr);
+    });
+    return () => unsubscribe;
   }, []);
   //Update toDo from Firebase
   //Delete toDo from Firebase
