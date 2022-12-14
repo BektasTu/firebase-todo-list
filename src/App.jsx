@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import ToDo from "./ToDo";
 
 const style = {
   bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ed] to-[#1cb5e0]`,
 };
 
 function App() {
+  const [todos, setTodos] = useState([
+    "React lernen",
+    "TypeScript lernen",
+    "Next.js lernen",
+  ]);
+
   return (
     <div className={style.bg}>
       <div className={style.container}>
@@ -16,7 +23,12 @@ function App() {
             <AiOutlinePlus size={30} />
           </button>
         </form>
-        <ul></ul>
+        <ul>
+          {todos.map((todo, index) => (
+            <ToDo key={index} todo={todo} />
+          ))}
+        </ul>
+        <p className={style.count}>Du hast noch 3 sachen zu erledigen</p>
       </div>
     </div>
   );
